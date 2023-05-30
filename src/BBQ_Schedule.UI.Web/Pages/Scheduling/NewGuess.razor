@@ -1,0 +1,84 @@
+﻿@using BBQ_Schedule.UI.Web.Dtos;
+@using FluentValidation.Results;
+
+<form @onsubmit="(() => Invite())">
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <label for="validationDefaultUsername">Nome do Convidado</label>
+            <div class="input-group">
+                <input type="text" class="form-control" @bind="FormModel.Name" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="validationDefaultUsername">Contribuição</label>
+            <div class="input-group">
+                <input type="number" min="1"  @bind="FormModel.Contribution" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="validationDefaultUsername">Com Bebida?</label>
+            <select class="form-select" @bind="@WithDrink">
+    
+            <option value="1">Sim</option>
+            <option value="0">Não</option>
+        </select>
+        </div>
+    </div>
+
+
+    <button class="oi oi-check text-black bg-warning border-1 btn-lg" type="submit" title="Convidar"></button>
+    <button class="oi oi-x text-black bg-danger border-1 btn-lg" type="button" title="Cancelar"></button>
+
+    @if (ErrorsModel.Any())
+    {
+            <div style="margin-top: 10px">
+            @foreach (var error in ErrorsModel)
+            {
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> @error
+                        </div>
+            }
+            </div>
+    }
+</form>
+
+@code {
+    [Parameter]
+    public EventCallback<GuestDto> InviteEvent { get; set; }
+
+    public GuestDto FormModel = new();
+    public List<string> ErrorsModel = new(1);
+
+    string WithDrink = "0";
+
+    public Task Invite()
+    {
+        ClearErrors();
+
+        FormModel.WithDrink = WithDrink == "0" ? false : true;
+
+        var validation = FormModel.Validate();
+
+        if (validation.IsValid)
+            return InviteEvent.InvokeAsync(FormModel);
+
+
+        AddErrors(validation);
+
+        return Task.CompletedTask;
+    }
+
+    private void AddErrors(ValidationResult validationResult)
+    {
+        foreach (var error in validationResult.Errors)
+        {
+            ErrorsModel.Add(error.ErrorMessage);
+        }
+    }
+
+    private void ClearErrors()
+    {
+        ErrorsModel.Clear();
+        ErrorsModel.Capacity = 1;
+    }
+}

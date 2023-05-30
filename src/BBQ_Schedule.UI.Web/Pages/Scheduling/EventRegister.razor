@@ -1,0 +1,113 @@
+﻿@using BBQ_Schedule.UI.Web.Dtos;
+@using FluentValidation.Results;
+
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+
+<form @onsubmit="(() => Add())">
+
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <label for="validationDefaultUsername">Data</label>
+            <div class="input-group">
+                <input type="date" @bind="FormModel.Date" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="validationDefaultUsername">Motivo</label>
+            <div class="input-group">
+                <input type="text" @bind="FormModel.Description" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="validationDefaultUsername">Máximo de Convidados</label>
+            <div class="input-group">
+                <input type="number" min="1" @bind="FormModel.Capacity" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-lg-10 mb-3">
+            <label for="validationDefault03">Onde?</label>
+            <input type="text" @bind="FormModel.Location" class="form-control" id="validationDefault03" required>
+        </div>
+
+    </div>
+
+    <button class="oi oi-calendar text-black bg-warning border-1 btn-lg" type="submit" title="Agendar"></button>
+    <button class="oi oi-x text-black bg-danger border-1 btn-lg" type="button" title="Cancelar" @onclick="(() => Cancel())"></button>
+
+    @if (ErrorsModel.Any())
+    {
+        <div style="margin-top: 10px">
+            @foreach (var error in ErrorsModel)
+            {
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> @error
+                </div>
+            }
+        </div>
+    }
+</form>
+
+@code {
+
+    [Parameter]
+    public EventCallback CancelEvent { get; set; }
+
+    [Parameter]
+    public EventCallback<ScheduledEventDto> AddEvent { get; set; }
+
+    public ScheduledEventDto FormModel = new();
+    public List<string> ErrorsModel = new(1);
+
+    bool IsLoading = false;
+
+    public Task Cancel()
+    {
+        ClearErrors();
+        return CancelEvent.InvokeAsync();
+    }
+
+    public Task Add()
+    {
+        IsLoading = true;
+
+        ClearErrors();
+
+        var validation = FormModel.Validate();
+
+        if (validation.IsValid)
+        {
+            var callback = AddEvent.InvokeAsync(FormModel);
+            IsLoading = false;
+            return callback;
+        }
+
+
+        AddErrors(validation);
+
+        return Task.CompletedTask;
+    }
+
+    private void AddErrors(ValidationResult validationResult)
+    {
+        foreach (var error in validationResult.Errors)
+        {
+            ErrorsModel.Add(error.ErrorMessage);
+        }
+    }
+
+    private void ClearErrors()
+    {
+        ErrorsModel.Clear();
+        ErrorsModel.Capacity = 1;
+    }
+}

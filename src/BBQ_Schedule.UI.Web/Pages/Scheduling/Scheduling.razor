@@ -1,0 +1,164 @@
+﻿@page "/"
+@page "/agenda"
+@using BBQ_Schedule.UI.Web.Dtos;
+@using BBQ_Schedule.UI.Web.Services.EventScheduling;
+@using System.Net;
+@inject NavigationManager Navigation;
+@inject IJSRuntime jsRuntime;
+@inject IEventSchedulingService _eventSchedulingService;
+
+
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+@if (!EventRegister)
+{
+    <button class="btn btn-warning" @onclick="@AddEvent">Agendar Churras</button>
+}
+
+@if (EventRegister)
+{
+    <div>
+        <EventRegister CancelEvent="CancelSchedule" AddEvent="Add"></EventRegister>
+    </div>
+}
+else
+{
+    <div class="row" style="margin-bottom: 15px">
+
+        @foreach (var item in Events)
+        {
+                <div class="col-sm-3" style="margin-top:15px;margin-bottom:15px">
+                <div class="card" @onclick="() => NavigateTo(item.Id)" style="cursor: pointer">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">@item.Date.ToString("dd/MM")</h5>
+                            <p class="card-text">@item.Description</p>
+                            <div class="oi oi-people text-warning">
+                                <a class="text-black fw-bold m-1"> @item.TotalPeople</a>
+                            </div>
+                            <div class="oi oi-dollar text-warning float-end">
+                                <a class="text-black fw-bold"> R$@item.TotalCollected</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        }
+
+    </div>
+}
+
+@if (Errors.Any())
+{
+    <div style="margin-top: 25px">
+        @foreach (var error in Errors)
+        {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @error
+        </div>
+        }
+    </div>
+}
+
+@code {
+    List<ScheduledEventDto> Events = new(1);
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        var result = await _eventSchedulingService.GetEventsAsync();
+
+        if (result is null)
+        {
+            IsLoading = false;
+            return;
+        }
+
+        if (result.Success)
+        {
+            var schedules = result.ToListObject<ScheduledEventDto>();
+            schedules.ForEach(s =>
+            {
+                Events.Add(s);
+                Events.Capacity += 1;
+            });
+        }
+
+        IsLoading = false;
+
+    }
+
+    bool IsLoading = true;
+    bool EventRegister = false;
+    List<string> Errors = new(1);
+
+    public void AddEvent()
+    {
+        EventRegister = true;       
+    }
+
+    public async Task Add(ScheduledEventDto scheduled)
+    {
+        ClearErrors();
+
+        var result = await _eventSchedulingService.CreateEventAsync(scheduled);
+
+        if (result is null)
+        {
+            return;
+        }
+
+        if (result.Success)
+        {
+            var schedule = result.ToObject<ScheduledEventDto>();
+
+            EventRegister = false;
+
+            NavigateTo(schedule.Id);
+        }
+        else
+        {
+            AddErrors(result.Errors);
+        }
+;
+
+    }
+
+    private void AddErrors(List<string> errors)
+    {
+        errors.ForEach(e =>
+        {
+            Errors.Add(e);
+            Errors.Capacity += 1;
+        });
+    }
+
+    private void ClearErrors()
+    {
+        Errors.Clear();
+        Errors.Capacity = 1;
+    }
+
+    public async Task CancelSchedule()
+    {
+        ClearErrors();
+        EventRegister = false;
+        await Task.CompletedTask;
+    }
+
+    public void NavigateTo(Guid? id)
+    {
+         NavigateTo(id.ToString());
+    }
+
+    private void NavigateTo(string id)
+    {
+        Navigation.NavigateTo($"/agenda/detalhes-do-evento/{id}");
+
+    }
+}

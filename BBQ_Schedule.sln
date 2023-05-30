@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{B0BDF964-A859-4DE8-93E3-E7CC0E6521BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Application", "3 - Application", "{1DC3183A-74FA-4DD1-BB35-E3C49C373094}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Domain", "4 - Domain", "{81AD9782-D2B8-46C4-B37A-030D08A5C905}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Infra", "5 - Infra", "{064B800E-B9C5-4432-8C8B-16A9BD2C7A6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ_Schedule.Application", "src\BBQ_Schedule.Application\BBQ_Schedule.Application.csproj", "{A0A12211-9A7E-498C-A966-1CB0681634BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ_Schedule.Domain", "src\BBQ_Schedule.Domain\BBQ_Schedule.Domain.csproj", "{CD666772-4F28-45DC-A7B0-AF511D87A51A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ_Schedule.Infra.Data", "src\BBQ_Schedule.Infra.Data\BBQ_Schedule.Infra.Data.csproj", "{F025C1D1-FA10-47EC-AECA-91EDD2771AB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ_Schedule.Infra.IoC", "src\BBQ_Schedule.Infra.IoC\BBQ_Schedule.Infra.IoC.csproj", "{3562EA34-0B24-4FAE-95A4-D4B734DB672B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Services", "2 - Services", "{ECCBD4F1-992C-4070-98F5-DEAB43CF562C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ_Schedule.UI.Web", "src\BBQ_Schedule.UI.Web\BBQ_Schedule.UI.Web.csproj", "{00630A59-3ED0-43BD-9544-6992550C5E7C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ_Schedule.Services.Api", "src\BBQ_Schedule.Services.Api\BBQ_Schedule.Services.Api.csproj", "{984E2BB2-87F4-4306-B870-8ABB65537027}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBQ_Schedule.Infra.Identity", "src\BBQ_Schedule.Infra.Identity\BBQ_Schedule.Infra.Identity.csproj", "{36204E75-994E-4A29-B82D-A8298CC1A763}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0A12211-9A7E-498C-A966-1CB0681634BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0A12211-9A7E-498C-A966-1CB0681634BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0A12211-9A7E-498C-A966-1CB0681634BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0A12211-9A7E-498C-A966-1CB0681634BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD666772-4F28-45DC-A7B0-AF511D87A51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD666772-4F28-45DC-A7B0-AF511D87A51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD666772-4F28-45DC-A7B0-AF511D87A51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD666772-4F28-45DC-A7B0-AF511D87A51A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F025C1D1-FA10-47EC-AECA-91EDD2771AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F025C1D1-FA10-47EC-AECA-91EDD2771AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F025C1D1-FA10-47EC-AECA-91EDD2771AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F025C1D1-FA10-47EC-AECA-91EDD2771AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3562EA34-0B24-4FAE-95A4-D4B734DB672B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3562EA34-0B24-4FAE-95A4-D4B734DB672B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3562EA34-0B24-4FAE-95A4-D4B734DB672B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3562EA34-0B24-4FAE-95A4-D4B734DB672B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00630A59-3ED0-43BD-9544-6992550C5E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00630A59-3ED0-43BD-9544-6992550C5E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00630A59-3ED0-43BD-9544-6992550C5E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00630A59-3ED0-43BD-9544-6992550C5E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{984E2BB2-87F4-4306-B870-8ABB65537027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{984E2BB2-87F4-4306-B870-8ABB65537027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{984E2BB2-87F4-4306-B870-8ABB65537027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{984E2BB2-87F4-4306-B870-8ABB65537027}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36204E75-994E-4A29-B82D-A8298CC1A763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36204E75-994E-4A29-B82D-A8298CC1A763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36204E75-994E-4A29-B82D-A8298CC1A763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36204E75-994E-4A29-B82D-A8298CC1A763}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0A12211-9A7E-498C-A966-1CB0681634BA} = {1DC3183A-74FA-4DD1-BB35-E3C49C373094}
+		{CD666772-4F28-45DC-A7B0-AF511D87A51A} = {81AD9782-D2B8-46C4-B37A-030D08A5C905}
+		{F025C1D1-FA10-47EC-AECA-91EDD2771AB5} = {064B800E-B9C5-4432-8C8B-16A9BD2C7A6B}
+		{3562EA34-0B24-4FAE-95A4-D4B734DB672B} = {064B800E-B9C5-4432-8C8B-16A9BD2C7A6B}
+		{00630A59-3ED0-43BD-9544-6992550C5E7C} = {B0BDF964-A859-4DE8-93E3-E7CC0E6521BF}
+		{984E2BB2-87F4-4306-B870-8ABB65537027} = {ECCBD4F1-992C-4070-98F5-DEAB43CF562C}
+		{36204E75-994E-4A29-B82D-A8298CC1A763} = {064B800E-B9C5-4432-8C8B-16A9BD2C7A6B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5A366CC-8A48-4BE6-B572-B5E5F8C37605}
+	EndGlobalSection
+EndGlobal

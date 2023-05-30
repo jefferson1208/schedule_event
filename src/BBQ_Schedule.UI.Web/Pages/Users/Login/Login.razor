@@ -1,0 +1,80 @@
+﻿@page "/entrar"
+@using BBQ_Schedule.UI.Web.Dtos;
+@using BBQ_Schedule.UI.Web.Services.Authentication;
+@using BBQ_Schedule.UI.Web.Services;
+@inject IAuthorizationService _authorizationService;
+
+@inject NavigationManager Navigation
+
+@if(IsLoading){
+	<Loading></Loading>
+}
+	<div class="container h-100" style="margin-top: 100px;margin-bottom: 100px;">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+						<img src="./img/churrasqueira.jpg" class="brand_logo" alt="Logo">
+					</div>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form @onsubmit="(() => LoginApp())">
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+						<input type="email" name="" class="form-control input_user" @bind="FormModel.Email" placeholder="E-mail" required>
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+						<input type="password" name="" class="form-control input_pass" @bind="FormModel.Password" placeholder="Senha" required>
+						</div>
+						<div class="d-flex justify-content-center mt-3 login_container">
+							<button type="submit" name="button" class="btn login_btn">Entrar</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+@code {
+	public LoginDto FormModel = new();
+
+	bool IsLoading = false;
+
+	public async Task LoginApp()
+	{
+		IsLoading = true;
+
+		try
+		{
+			var result = await _authorizationService.Login(FormModel);
+
+			if (result.IsSuccessStatusCode)
+			{
+				var response = Util.ConvertFromJson<LoginResponseDto>(await result.Content.ReadAsStringAsync());
+				await _authorizationService.Login(response.AccessToken);
+				Navigation.NavigateTo("/agenda");
+			}
+			else
+			{
+
+			}
+		}
+		catch (Exception)
+		{
+
+		}
+		finally
+		{
+			IsLoading = false;
+		}
+	}
+
+}

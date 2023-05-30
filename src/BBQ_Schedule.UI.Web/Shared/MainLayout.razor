@@ -1,0 +1,45 @@
+﻿@using BBQ_Schedule.UI.Web.Pages.Users.Login;
+@using BBQ_Schedule.UI.Web.Services.Authentication;
+@inject IAuthorizationService _authorizationService;
+
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="page">
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+
+            <main>
+                <div class="top-row px-4">
+                    <a>@context.User.Identity.Name</a>
+                    <button @onclick="(() => Logout())" title="Sair" style="margin-left: 20px" class="oi oi-account-logout text-black bg-warning border-1 btn-sm"></button>
+                </div>
+
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+        </Authorized>
+        <NotAuthorized>
+            <Login></Login>
+        </NotAuthorized>
+    </AuthorizeView>
+
+
+
+</div>
+
+@code {
+
+
+    public async Task Logout()
+    {
+        await _authorizationService.Logout();
+        Navigation.NavigateTo("/");
+    }
+
+}

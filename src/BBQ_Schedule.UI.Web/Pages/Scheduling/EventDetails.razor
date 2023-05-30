@@ -1,0 +1,158 @@
+﻿@page "/agenda/detalhes-do-evento/{Id}"
+@using BBQ_Schedule.UI.Web.Dtos;
+@using BBQ_Schedule.UI.Web.Services.EventScheduling;
+@inject HttpClient Http
+@inject IEventSchedulingService _eventSchedulingService;
+
+<PageTitle>Churras @Event.Date.ToString("dd/MM")</PageTitle>
+
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+
+<div class="btn" style="margin-left: -15px">
+  <div class="btn-group mr-4">
+        <h1>@Event.Date.ToString("dd/MM")</h1>
+  </div>
+
+    @if (!NewGuess)
+    {
+        <button class="oi oi-plus text-black bg-warning border-1 btn-sm" @onclick="@AddGuess" title="Adicionar Convidado"></button>
+    }
+</div>
+
+<p>@Event.Description</p>
+
+<div style="margin-bottom: 50px">
+    
+    
+    <div class="float-start">
+        <div class="oi oi-people text-warning">
+            <a class="text-black fw-bold m-1"> @Event.TotalPeople</a>
+        </div>
+        <div class="oi oi-dollar text-warning">
+            <a class="text-black fw-bold"> R$ @Event.TotalCollected</a>
+        </div>
+    </div>
+</div>
+@if (Event.Guests == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (!NewGuess)
+    {
+        <table class="table table-sm table-hover">
+
+            <thead>
+                <tr>
+                    <th>Bebida?</th>
+                    <th>Convidado</th>
+                    <th>Contribuição</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Event.Guests)
+                {
+                    <tr>
+                        <td>
+                            @if (item.WithDrink)
+                            {
+                                <div class="oi oi-circle-check text-success" title="Sim"></div>
+                            }
+                            else
+                            {
+                                <div class="oi oi-circle-x text-danger" title="Não"></div>
+                            }
+                        </td>
+
+
+                        <td>@item.Name</td>
+                        <td>@item.Contribution</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@if (NewGuess)
+{
+    <NewGuess InviteEvent="Invite"></NewGuess>
+}
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    ScheduledEventDto Event = new();
+
+    bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        Event.Guests = new(1);
+
+        var result = await _eventSchedulingService.GetEventAsync(Id);
+        if (result is null)
+        {
+            IsLoading = false;
+            return;
+        }
+
+        if (result.Success)
+        {
+            var schedule = result.ToObject<ScheduledEventDto>();
+            Event.Id = schedule.Id;
+            Event.Description = schedule.Description;
+            Event.Date = schedule.Date;
+            Event.TotalCollected = schedule.TotalCollected;
+            Event.TotalPeople = schedule.TotalPeople;
+
+            if(schedule.Guests is not null)
+            {
+                schedule.Guests.ForEach(g =>
+                {
+                    Event.Guests.Add(g);
+                    Event.Guests.Capacity += 1;
+                });
+            }
+        }
+
+        IsLoading = false;
+    }
+
+
+    bool NewGuess = false;
+
+    public Task AddGuess()
+    {
+        NewGuess = true;
+        return Task.CompletedTask;
+    }
+
+    public async Task Invite(GuestDto guest)
+    {
+        NewGuess = false;
+        guest.EventId = Guid.Parse(Id);
+
+        var result = await _eventSchedulingService.InviteAsync(guest);
+
+        if (result.Success)
+        {
+            Event.AddPeople(guest.Contribution);
+            Event.Guests.Add(guest);
+        }
+
+        await Task.CompletedTask;
+    }
+}
