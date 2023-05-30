@@ -38,4 +38,14 @@ Convite efetuado com sucesso. :) .Repita o processo para convidar mais pessoas.
 
 ![image](https://github.com/jefferson1208/schedule_event/assets/56326767/265e390b-969a-478e-a39f-0552f59f6d6d)
 
-#### 3 Tecnologias utilizadas
+### Linguagens & Ferramentas 🛠
+ 
+<div style="display: inline_block"><br>
+  <img align="center" alt="Jeferson-Netcore" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/dotnetcore/dotnetcore-original.svg">
+  <img align="center" alt="Jeferson-Csharp" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg">
+  
+  <img align="center" alt="Jeferson-HTML" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
+ <img align="center" alt="Jeferson-Bootstrap" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/bootstrap/bootstrap-original.svg">
+ <img align="center" alt="Jeferson-sqlserver" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/microsoftsqlserver/microsoftsqlserver-plain-wordmark.svg">
+  <img align="right" alt="Jeferson-dev" height="140" width="250" src="https://media.giphy.com/media/g06HKnMmtK1aXurndU/giphy.gif">
+</div>
